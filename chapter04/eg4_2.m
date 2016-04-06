@@ -1,10 +1,10 @@
 %% Example 4.2 L2-Constrained Regression with Least Square Method
-% 
+%
 % * *Result in book* : Figure 4.6
 % * *Code in book* : Figure 4.7
 % * *Output* : |eg4_2.png|
 % * *Usage* : |eg4_2(), eg4_2(50, 1000)|
-% 
+%
 %% Source Code
 function eg4_2(n, N)
 	% init

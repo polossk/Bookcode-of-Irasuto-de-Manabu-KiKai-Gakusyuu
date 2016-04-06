@@ -71,7 +71,6 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 	rng(0);
 	<span class="comment">% recommended, use it in future instead of</span>
 	<span class="comment">% rand('state', 0); randn('state', 0);</span>
-
 	<span class="keyword">if</span> nargin &lt; 2
 		n = 50; N = 1000;
 	<span class="keyword">end</span>
@@ -120,7 +119,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </pre><img vspace="5" hspace="5" src="eg3_2_01.png" alt=""> <img vspace="5" hspace="5" src="eg3_2_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method
-% 
+%
 % * *Result in book* : Figure 3.7
 % * *Code in book* : Figure 3.8
 % * *Output* : |eg3_2_A.png, eg3_2_B.png|
@@ -132,11 +131,10 @@ function eg3_2(n, N)
 	rng(0);
 	% recommended, use it in future instead of
 	% rand('state', 0); randn('state', 0);
-	
 	if nargin < 2
 		n = 50; N = 1000;
 	end
-	
+
 	% constant
 	x = linspace(-3, 3, n)';
 	X = linspace(-3, 3, N)';
@@ -166,7 +164,7 @@ function eg3_2(n, N)
 		end
 		t0 = t;
 	end
-	
+
 	% plot final iteration result
 	plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
 	saveas(gcf, 'eg3_2_A', 'png');

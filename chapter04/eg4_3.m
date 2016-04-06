@@ -1,10 +1,10 @@
 %% Example 4.3 Model Selection with Cross Validation
-% 
+%
 % * *Result in book* : Figure 4.9
 % * *Code in book* : Figure 4.14
 % * *Output* : |eg4_3_A.png, eg4_3_B.png|
 % * *Usage* : |eg4_3(), eg4_3(50, 1000)|
-% 
+%
 %% Source Code
 function eg4_3(n, N)
 	% init

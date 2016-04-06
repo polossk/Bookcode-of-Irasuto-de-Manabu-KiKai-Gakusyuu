@@ -73,7 +73,8 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 	<span class="comment">% rand('state', 0); randn('state', 0);</span>
 	<span class="keyword">if</span> nargin &lt; 2
 		n = 50; N = 1000;
-	<span class="keyword">end</span>
+    <span class="keyword">end</span>
+
 	<span class="comment">% constant</span>
 	x = linspace(-3, 3, n)';
 	X = linspace(-3, 3, N)';
@@ -104,12 +105,12 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 </pre><img vspace="5" hspace="5" src="eg3_1_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Example 3.1 Basic Linear Regression with Least Square Method
-% 
+%
 % * *Result in book* : Figure 3.1
 % * *Code in book* : Figure 3.2
 % * *Output* : |eg3_1.png|
 % * *Usage* : |eg3_1(), eg3_1(50, 1000)|
-% 
+%
 %% Source Code
 function eg3_1(n, N)
 	% init
@@ -118,7 +119,8 @@ function eg3_1(n, N)
 	% rand('state', 0); randn('state', 0);
 	if nargin < 2
 		n = 50; N = 1000;
-	end
+    end
+
 	% constant
 	x = linspace(-3, 3, n)';
 	X = linspace(-3, 3, N)';

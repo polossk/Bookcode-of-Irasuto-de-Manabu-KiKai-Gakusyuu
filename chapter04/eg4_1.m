@@ -1,10 +1,10 @@
 %% Example 4.1 Subspace-Constrained Regression with Least Square Method
-% 
+%
 % * *Result in book* : Figure 4.1
 % * *Code in book* : Figure 4.3
 % * *Output* : |eg4_1.png|
 % * *Usage* : |eg4_1(), eg4_1(50, 1000)|
-% 
+%
 %% Source Code
 function eg4_1(n, N)
 	% init

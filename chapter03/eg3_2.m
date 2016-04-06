@@ -1,5 +1,5 @@
 %% Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method
-% 
+%
 % * *Result in book* : Figure 3.7
 % * *Code in book* : Figure 3.8
 % * *Output* : |eg3_2_A.png, eg3_2_B.png|
@@ -11,11 +11,10 @@ function eg3_2(n, N)
 	rng(0);
 	% recommended, use it in future instead of
 	% rand('state', 0); randn('state', 0);
-	
 	if nargin < 2
 		n = 50; N = 1000;
 	end
-	
+
 	% constant
 	x = linspace(-3, 3, n)';
 	X = linspace(-3, 3, N)';
@@ -45,7 +44,7 @@ function eg3_2(n, N)
 		end
 		t0 = t;
 	end
-	
+
 	% plot final iteration result
 	plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
 	saveas(gcf, 'eg3_2_A', 'png');
