@@ -34,7 +34,7 @@ function eg5_1(n, N)
 	ky = k * y;
 
 	for o = 1 : 1000
-		t1 = (k2 + 1 * pinv(diag(abs(t0)))) \ ky;
+		t1 = (k2 + l * pinv(diag(abs(t0)))) \ ky;
 		if norm(t1 - t0) < 0.001, break, end
 		t0 = t1;
 	end
