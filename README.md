@@ -18,13 +18,16 @@
 ## Index
 
 - Chapter 03
-    - [example 3.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_1.html)
-    - [example 3.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2.html)
+	- [example 3.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_1.html)
+	- [example 3.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2.html) [gif](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2_gif.html)
 - Chapter 04
-    - [example 4.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_1.html)
-    - [example 4.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_2.html)
-    - [example 4.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_3.html)
-- Chapter 05(in progress)
+	- [example 4.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_1.html)
+	- [example 4.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_2.html)
+	- [example 4.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_3.html)
+- Chapter 05
+	- [example 5.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg5_1.html)
+- Chapter 06(in progress)
+	- [example 6.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_1.html)
 
 ## Copyright
 Use this code whatever you want. Star this repository if you like, and it will be very generous of you!

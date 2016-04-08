@@ -1,12 +1,12 @@
-%% Example 4.2 L2-Constrained Regression with Least Square Method
+%% Example 5.1 L1-Constrained Regression with Least Square Method
 %
-% * *Result in book* : Figure 4.6
-% * *Code in book* : Figure 4.7
-% * *Output* : |eg4_2.png|
-% * *Usage* : |eg4_2(), eg4_2(50, 1000)|
+% * *Result in book* : Figure 5.7
+% * *Code in book* : Figure 5.8
+% * *Output* : |eg5_1.png|
+% * *Usage* : |eg5_1(), eg5_1(50, 1000)|
 %
 %% Source Code
-function eg4_2(n, N)
+function eg5_1(n, N)
 	% init
 	rng(0);
 	% recommended, use it in future instead of
@@ -28,22 +28,27 @@ function eg4_2(n, N)
 	l = 0.1;
 	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
 	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
+	t0 = randn(n, 1);
+	
+	k2 = k ^ 2;
+	ky = k * y;
 
-	% solve
-	t1 = k \ y;
+	for o = 1 : 1000
+		t1 = (k2 + 1 * pinv(diag(abs(t0)))) \ ky;
+		if norm(t1 - t0) < 0.001, break, end
+		t0 = t1;
+	end
+
 	F1 = K * t1;
-    t2 = (k ^ 2 + l * eye(n)) \ (k * y);
+	t2 = (k ^ 2 + l * eye(n)) \ (k * y);
 	F2 = K * t2;
 
-	% plot
-	figure('Name', 'example 4-2'); clf; hold on;
-
-	% plot figure 1
+	figure('Name', 'example 5-1'); clf; hold on;
 	plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
-	legend('LS', 'L2-Constrained LS', 'Input Data');
+	legend('L1-Constrained LS', 'L2-Constrained LS', 'Input Data');
 	axis([-2.8 2.8 -1 1.5]);
-	setFigure(gca, 'LS & L2-Constrained LS');
+	setFigure(gca, 'L1-Constrained LS & L2-Constrained LS');
 
 	% save figure
-	saveas(gcf, 'eg4_2', 'png');
+	saveas(gcf, 'eg5_1', 'png');
 end

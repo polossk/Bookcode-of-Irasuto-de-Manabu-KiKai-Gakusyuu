@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-07"><meta name="DC.source" content="eg3_2.m"><style type="text/css">
+      --><title>Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-07"><meta name="DC.source" content="eg3_2_gif.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 3.7</li><li><b>Code in book</b> : Figure 3.8</li><li><b>Output</b> : <tt>eg3_2_A.png, eg3_2_B.png</tt></li><li><b>Usage</b> : <tt>eg3_2(), eg3_2(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg3_2(n, N)
+  </style></head><body><div class="content"><h1>Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 3.7</li><li><b>Code in book</b> : Figure 3.8</li><li><b>Output</b> : <tt>eg3_2_anime.gif</tt></li><li><b>Usage</b> : <tt>eg3_2_gif(), eg3_2_gif(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li><li><a href="#3">Result</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg3_2_gif(n, N)
 	<span class="comment">% init</span>
 	rng(0);
 	<span class="comment">% recommended, use it in future instead of</span>
@@ -82,7 +82,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 	y = sin(pix) ./ pix + 0.1 * x + 0.05 * randn(n, 1);
 
 	<span class="comment">% plot preparation</span>
-	figure(<span class="string">'Name'</span>, <span class="string">'example 3-2 A'</span>); clf; hold <span class="string">on</span>;
+	figure(<span class="string">'Name'</span>, <span class="string">'example 3-2 gif'</span>, <span class="string">'Visible'</span>, <span class="string">'off'</span>); clf;
 
 	<span class="comment">% iteration parameter</span>
 	hh = 2 * 0.3 * 0.3;
@@ -90,43 +90,56 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 	t0 = randn(n, 1);
 	e = 0.1;
 	eps = 1e-6;
-	id = 1;
+	id = 0;
 
-	<span class="comment">% iteration, plot some data within iteration</span>
+
+	figure(<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+	plot(X, K * t0, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+	xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+	text(-2.7, 1.1, strcat(<span class="string">'Iteration Count: '</span>, num2str(id)));
+	im = frame2im(getframe);
+	[Data, map] = rgb2ind(im, 256);
+	imwrite(Data, map, <span class="string">'eg3_2_anime.gif'</span>, <span class="string">'gif'</span>, <span class="string">'Loopcount'</span>, 0, <span class="string">'DelayTime'</span>, 0.05);
+	id = id + 1;
+	<span class="comment">% iteration, plot data within iteration</span>
 	<span class="keyword">for</span> o = 1 : n * 1000
 		index = ceil(rand * n);
 		ki = exp(-(x - x(index)) .^ 2 / hh);
 		t = t0 - e * ki * (ki' * t0 - y(index));
 		<span class="keyword">if</span> norm(t - t0) &lt; eps, <span class="keyword">break</span>, <span class="keyword">end</span>
-		<span class="keyword">if</span> (o == 1) || (rem(o, 100) == 0 &amp;&amp; o / 100 &lt; 5)
-			plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
-			id = id + 1;
+		<span class="keyword">if</span> (rem(id,  57) == 0)
+			figure(<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+			plot(X, K * t, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+			xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+			text(-2.7, 1.1, strcat(<span class="string">'Iteration Count: '</span>, num2str(id)));
+			im = frame2im(getframe);
+			[Data, map] = rgb2ind(im, 256);
+			imwrite(Data, map, <span class="string">'eg3_2_anime.gif'</span>, <span class="string">'gif'</span>, <span class="string">'WriteMode'</span>, <span class="string">'append'</span>, <span class="string">'DelayTime'</span>, 0.05);
 		<span class="keyword">end</span>
+		id = id + 1;
 		t0 = t;
 	<span class="keyword">end</span>
 
 	<span class="comment">% plot final iteration result</span>
-	plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
-	saveas(gcf, <span class="string">'eg3_2_A'</span>, <span class="string">'png'</span>);
-	figure(<span class="string">'Name'</span>, <span class="string">'example 3-2 B'</span>); clf; hold <span class="string">on</span>;
-	plot(X, K * t, <span class="string">'g-'</span>);
-	plot(x, y, <span class="string">'bo'</span>);
-	setFigure(gca, <span class="string">'example 3-2 final result'</span>);
-
-	<span class="comment">% save figure</span>
-	saveas(gcf, <span class="string">'eg3_2_B'</span>, <span class="string">'png'</span>);
+	figure(<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+	plot(X, K * t, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+	xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+	text(-2.7, 1.1, strcat(<span class="string">'Iteration Count: '</span>, num2str(id)));
+	im = frame2im(getframe);
+	[Data, map] = rgb2ind(im, 256);
+	imwrite(Data, map, <span class="string">'eg3_2_anime.gif'</span>, <span class="string">'gif'</span>, <span class="string">'WriteMode'</span>, <span class="string">'append'</span>, <span class="string">'DelayTime'</span>, 0.05);
 <span class="keyword">end</span>
-</pre><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><h2>Result<a name="3"></a></h2><p><img vspace="5" hspace="5" src="eg3_2_anime.gif" alt=""> </p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
 %% Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method
 %
 % * *Result in book* : Figure 3.7
 % * *Code in book* : Figure 3.8
-% * *Output* : |eg3_2_A.png, eg3_2_B.png|
-% * *Usage* : |eg3_2(), eg3_2(50, 1000)|
+% * *Output* : |eg3_2_anime.gif|
+% * *Usage* : |eg3_2_gif(), eg3_2_gif(50, 1000)|
 %
 %% Source Code
-function eg3_2(n, N)
+function eg3_2_gif(n, N)
 	% init
 	rng(0);
 	% recommended, use it in future instead of
@@ -142,7 +155,7 @@ function eg3_2(n, N)
 	y = sin(pix) ./ pix + 0.1 * x + 0.05 * randn(n, 1);
 
 	% plot preparation
-	figure('Name', 'example 3-2 A'); clf; hold on;
+	figure('Name', 'example 3-2 gif', 'Visible', 'off'); clf;
 
 	% iteration parameter
 	hh = 2 * 0.3 * 0.3;
@@ -150,33 +163,50 @@ function eg3_2(n, N)
 	t0 = randn(n, 1);
 	e = 0.1;
 	eps = 1e-6;
-	id = 1;
+	id = 0;
 
-	% iteration, plot some data within iteration
+
+	figure('Visible', 'off');
+	plot(X, K * t0, 'g-', x, y, 'bo');
+	xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+	text(-2.7, 1.1, strcat('Iteration Count: ', num2str(id)));
+	im = frame2im(getframe);
+	[Data, map] = rgb2ind(im, 256);
+	imwrite(Data, map, 'eg3_2_anime.gif', 'gif', 'Loopcount', 0, 'DelayTime', 0.05);
+	id = id + 1;
+	% iteration, plot data within iteration
 	for o = 1 : n * 1000
 		index = ceil(rand * n);
 		ki = exp(-(x - x(index)) .^ 2 / hh);
 		t = t0 - e * ki * (ki' * t0 - y(index));
 		if norm(t - t0) < eps, break, end
-		if (o == 1) || (rem(o, 100) == 0 && o / 100 < 5)
-			plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
-			id = id + 1;
+		if (rem(id,  57) == 0)
+			figure('Visible', 'off');
+			plot(X, K * t, 'g-', x, y, 'bo');
+			xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+			text(-2.7, 1.1, strcat('Iteration Count: ', num2str(id)));
+			im = frame2im(getframe);
+			[Data, map] = rgb2ind(im, 256);
+			imwrite(Data, map, 'eg3_2_anime.gif', 'gif', 'WriteMode', 'append', 'DelayTime', 0.05);
 		end
+		id = id + 1;
 		t0 = t;
 	end
 
 	% plot final iteration result
-	plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
-	saveas(gcf, 'eg3_2_A', 'png');
-	figure('Name', 'example 3-2 B'); clf; hold on;
-	plot(X, K * t, 'g-');
-	plot(x, y, 'bo');
-	setFigure(gca, 'example 3-2 final result');
-
-	% save figure
-	saveas(gcf, 'eg3_2_B', 'png');
+	figure('Visible', 'off');
+	plot(X, K * t, 'g-', x, y, 'bo');
+	xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+	text(-2.7, 1.1, strcat('Iteration Count: ', num2str(id)));
+	im = frame2im(getframe);
+	[Data, map] = rgb2ind(im, 256);
+	imwrite(Data, map, 'eg3_2_anime.gif', 'gif', 'WriteMode', 'append', 'DelayTime', 0.05);
 end
 %%
+%% Result
+% 
+% <<eg3_2_anime.gif>>
+% 
 
 ##### SOURCE END #####
 --></body></html>

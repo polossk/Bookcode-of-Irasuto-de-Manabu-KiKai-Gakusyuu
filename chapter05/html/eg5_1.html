@@ -6,7 +6,7 @@
    <!--
 This HTML was auto-generated from MATLAB code.
 To make changes, update the MATLAB code and republish this document.
-      --><title>Example 4.2 L2-Constrained Regression with Least Square Method</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-07"><meta name="DC.source" content="eg4_2.m"><style type="text/css">
+      --><title>Example 5.1 L1-Constrained Regression with Least Square Method</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-06"><meta name="DC.source" content="eg5_1.m"><style type="text/css">
 html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
 
 html { min-height:100%; margin-bottom:1px; }
@@ -66,7 +66,7 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
 
-  </style></head><body><div class="content"><h1>Example 4.2 L2-Constrained Regression with Least Square Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 4.6</li><li><b>Code in book</b> : Figure 4.7</li><li><b>Output</b> : <tt>eg4_2.png</tt></li><li><b>Usage</b> : <tt>eg4_2(), eg4_2(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg4_2(n, N)
+  </style></head><body><div class="content"><h1>Example 5.1 L1-Constrained Regression with Least Square Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 5.7</li><li><b>Code in book</b> : Figure 5.8</li><li><b>Output</b> : <tt>eg5_1.png</tt></li><li><b>Usage</b> : <tt>eg5_1(), eg5_1(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg5_1(n, N)
 	<span class="comment">% init</span>
 	rng(0);
 	<span class="comment">% recommended, use it in future instead of</span>
@@ -88,36 +88,41 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 	l = 0.1;
 	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
 	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
+	t0 = randn(n, 1);
 
-	<span class="comment">% solve</span>
-	t1 = k \ y;
+	k2 = k ^ 2;
+	ky = k * y;
+
+	<span class="keyword">for</span> o = 1 : 1000
+		t1 = (k2 + 1 * pinv(diag(abs(t0)))) \ ky;
+		<span class="keyword">if</span> norm(t1 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
+		t0 = t1;
+	<span class="keyword">end</span>
+
 	F1 = K * t1;
-    t2 = (k ^ 2 + l * eye(n)) \ (k * y);
+	t2 = (k ^ 2 + l * eye(n)) \ (k * y);
 	F2 = K * t2;
 
-	<span class="comment">% plot</span>
-	figure(<span class="string">'Name'</span>, <span class="string">'example 4-2'</span>); clf; hold <span class="string">on</span>;
-
-	<span class="comment">% plot figure 1</span>
+	figure(<span class="string">'Name'</span>, <span class="string">'example 5-1'</span>); clf; hold <span class="string">on</span>;
 	plot(X, F1, <span class="string">'g-'</span>, X, F2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
-	legend(<span class="string">'LS'</span>, <span class="string">'L2-Constrained LS'</span>, <span class="string">'Input Data'</span>);
+	legend(<span class="string">'L1-Constrained LS'</span>, <span class="string">'L2-Constrained LS'</span>, <span class="string">'Input Data'</span>);
 	axis([-2.8 2.8 -1 1.5]);
-	setFigure(gca, <span class="string">'LS &amp; L2-Constrained LS'</span>);
+	setFigure(gca, <span class="string">'L1-Constrained LS &amp; L2-Constrained LS'</span>);
 
 	<span class="comment">% save figure</span>
-	saveas(gcf, <span class="string">'eg4_2'</span>, <span class="string">'png'</span>);
+	saveas(gcf, <span class="string">'eg5_1'</span>, <span class="string">'png'</span>);
 <span class="keyword">end</span>
-</pre><img vspace="5" hspace="5" src="eg4_2_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+</pre><img vspace="5" hspace="5" src="eg5_1_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
-%% Example 4.2 L2-Constrained Regression with Least Square Method
+%% Example 5.1 L1-Constrained Regression with Least Square Method
 %
-% * *Result in book* : Figure 4.6
-% * *Code in book* : Figure 4.7
-% * *Output* : |eg4_2.png|
-% * *Usage* : |eg4_2(), eg4_2(50, 1000)|
+% * *Result in book* : Figure 5.7
+% * *Code in book* : Figure 5.8
+% * *Output* : |eg5_1.png|
+% * *Usage* : |eg5_1(), eg5_1(50, 1000)|
 %
 %% Source Code
-function eg4_2(n, N)
+function eg5_1(n, N)
 	% init
 	rng(0);
 	% recommended, use it in future instead of
@@ -139,24 +144,29 @@ function eg4_2(n, N)
 	l = 0.1;
 	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
 	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
+	t0 = randn(n, 1);
+	
+	k2 = k ^ 2;
+	ky = k * y;
 
-	% solve
-	t1 = k \ y;
+	for o = 1 : 1000
+		t1 = (k2 + 1 * pinv(diag(abs(t0)))) \ ky;
+		if norm(t1 - t0) < 0.001, break, end
+		t0 = t1;
+	end
+
 	F1 = K * t1;
-    t2 = (k ^ 2 + l * eye(n)) \ (k * y);
+	t2 = (k ^ 2 + l * eye(n)) \ (k * y);
 	F2 = K * t2;
 
-	% plot
-	figure('Name', 'example 4-2'); clf; hold on;
-
-	% plot figure 1
+	figure('Name', 'example 5-1'); clf; hold on;
 	plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
-	legend('LS', 'L2-Constrained LS', 'Input Data');
+	legend('L1-Constrained LS', 'L2-Constrained LS', 'Input Data');
 	axis([-2.8 2.8 -1 1.5]);
-	setFigure(gca, 'LS & L2-Constrained LS');
+	setFigure(gca, 'L1-Constrained LS & L2-Constrained LS');
 
 	% save figure
-	saveas(gcf, 'eg4_2', 'png');
+	saveas(gcf, 'eg5_1', 'png');
 end
 ##### SOURCE END #####
 --></body></html>

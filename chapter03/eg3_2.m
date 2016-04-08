@@ -38,7 +38,7 @@ function eg3_2(n, N)
 		ki = exp(-(x - x(index)) .^ 2 / hh);
 		t = t0 - e * ki * (ki' * t0 - y(index));
 		if norm(t - t0) < eps, break, end
-		if (o == 1) || (rem(o, 50) == 0 && o < 201)
+		if (o == 1) || (rem(o, 100) == 0 && o / 100 < 5)
 			plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
 			id = id + 1;
 		end

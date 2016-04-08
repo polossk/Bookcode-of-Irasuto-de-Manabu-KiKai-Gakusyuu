@@ -39,7 +39,7 @@ function eg4_3(n, N)
 	u = u(randperm(n));
 
 	id = 1;
-    g = zeros(3, 3, m);
+	g = zeros(3, 3, m);
 	for hk = 1 : length(hhs)
 		hh = hhs(hk);
 		hhh = hidx(hk);

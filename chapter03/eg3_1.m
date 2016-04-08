@@ -13,7 +13,7 @@ function eg3_1(n, N)
 	% rand('state', 0); randn('state', 0);
 	if nargin < 2
 		n = 50; N = 1000;
-    end
+	end
 
 	% constant
 	x = linspace(-3, 3, n)';
