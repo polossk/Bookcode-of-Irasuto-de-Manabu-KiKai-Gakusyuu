@@ -67,87 +67,87 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h1>Example 6.1 Least Huber Loss Regression &amp; Least L1 Regression</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 6.8(e = 1), Figure 6.3(e = 0.01)</li><li><b>Code in book</b> : Figure 6.9</li><li><b>Output</b> : <tt>eg6_1_A.png, eg6_1_B.png, eg6_1_C.png</tt></li><li><b>Usage</b> : <tt>eg6_1(), eg6_1(10, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg6_1(n, N)
-	<span class="comment">% init</span>
-	rng(0);
-	<span class="comment">% recommended, use it in future instead of</span>
-	<span class="comment">% rand('state', 0); randn('state', 0);</span>
-	<span class="keyword">if</span> nargin &lt; 2
-		n = 10; N = 1000;
-	<span class="keyword">end</span>
+    <span class="comment">% init</span>
+    rng(0);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 2
+        n = 10; N = 1000;
+    <span class="keyword">end</span>
 
-	<span class="comment">% constant</span>
-	x = linspace(-3, 3, n)';
-	X = linspace(-4, 4, N)';
-	y = x + 0.2 * randn(n, 1);
-	y(n) = -4;
+    <span class="comment">% constant</span>
+    x = linspace(-3, 3, n)';
+    X = linspace(-4, 4, N)';
+    y = x + 0.2 * randn(n, 1);
+    y(n) = -4;
 
-	<span class="comment">% plot preparation</span>
-	figure(<span class="string">'Name'</span>, <span class="string">'example 6-1 A'</span>); clf; hold <span class="string">on</span>;
+    <span class="comment">% plot preparation</span>
+    figure(<span class="string">'Name'</span>, <span class="string">'example 6-1 A'</span>); clf; hold <span class="string">on</span>;
 
-	p(:, 1) = ones(n, 1);
-	p(:, 2) = x;
-	P(:, 1) = ones(N, 1);
-	P(:, 2) = X;
-	t0 = p \ y;
+    p(:, 1) = ones(n, 1);
+    p(:, 2) = x;
+    P(:, 1) = ones(N, 1);
+    P(:, 2) = X;
+    t0 = p \ y;
 
-	e = 1;
+    e = 1;
 
-	id = 1;
-	<span class="keyword">for</span> o = 1 : 1000
-		r = abs(p * t0 - y);
-		<span class="comment">% Least Huber Loss</span>
-		w = ones(n, 1);
-		w(r &gt; e) = e ./ r(r &gt; e);
-		t = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
-		<span class="keyword">if</span> norm(t - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
-		<span class="keyword">if</span> (o &lt;= 3)
-			plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
-			id = id + 1;
-		<span class="keyword">end</span>
-		t0 = t;
-	<span class="keyword">end</span>
+    id = 1;
+    <span class="keyword">for</span> o = 1 : 1000
+        r = abs(p * t0 - y);
+        <span class="comment">% Least Huber Loss</span>
+        w = ones(n, 1);
+        w(r &gt; e) = e ./ r(r &gt; e);
+        t = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
+        <span class="keyword">if</span> norm(t - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
+        <span class="keyword">if</span> (o &lt;= 3)
+            plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
+            id = id + 1;
+        <span class="keyword">end</span>
+        t0 = t;
+    <span class="keyword">end</span>
 
-	<span class="comment">% plot final iteration result</span>
-	plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
-	saveas(gcf, <span class="string">'eg6_1_A'</span>, <span class="string">'png'</span>);
-	figure(<span class="string">'Name'</span>, <span class="string">'example 6-1 B'</span>); clf; hold <span class="string">on</span>;
-	axis([-4 4 -4.5 3.5]);
-	plot(X, P * t, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
-	setFigure(gca, <span class="string">'example 6-1 final result'</span>);
+    <span class="comment">% plot final iteration result</span>
+    plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
+    saveas(gcf, <span class="string">'eg6_1_A'</span>, <span class="string">'png'</span>);
+    figure(<span class="string">'Name'</span>, <span class="string">'example 6-1 B'</span>); clf; hold <span class="string">on</span>;
+    axis([-4 4 -4.5 3.5]);
+    plot(X, P * t, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+    setFigure(gca, <span class="string">'example 6-1 final result'</span>);
 
-	<span class="comment">% save figure</span>
-	saveas(gcf, <span class="string">'eg6_1_B'</span>, <span class="string">'png'</span>);
+    <span class="comment">% save figure</span>
+    saveas(gcf, <span class="string">'eg6_1_B'</span>, <span class="string">'png'</span>);
 
-	e = 0.01;
-	y(n) = x(n) + 0.2 * randn;
-	<span class="keyword">for</span> o = 1 : 1000
-		r = abs(p * t0 - y);
-		w = ones(n, 1);
-		w(r &gt; e) = e ./ r(r &gt; e);
-		t1 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
-		<span class="keyword">if</span> norm(t1 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
-		t0 = t1;
-	<span class="keyword">end</span>
-	y(n) = -4;
-	<span class="keyword">for</span> o = 1 : 1000
-		r = abs(p * t0 - y);
-		w = ones(n, 1);
-		w(r &gt; e) = e ./ r(r &gt; e);
-		t2 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
-		<span class="keyword">if</span> norm(t2 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
-		t0 = t2;
-	<span class="keyword">end</span>
-	F1 = P * t1;
-	F2 = P * t2;
-	err = max(F1-F2)
-	figure(<span class="string">'Name'</span>, <span class="string">'example 6-1 C'</span>); clf; hold <span class="string">on</span>;
-	axis([-4 4 -4.5 3.5]);
-	plot(X, P * t1, <span class="string">'g-'</span>, X, P * t2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
-	legend(<span class="string">'without any outlier'</span>, <span class="string">'with outliers'</span>, <span class="string">'Input Data'</span>);
-	setFigure(gca, <span class="string">'example 6-1 Compare Least Huber with Least L1'</span>);
+    e = 0.01;
+    y(n) = x(n) + 0.2 * randn;
+    <span class="keyword">for</span> o = 1 : 1000
+        r = abs(p * t0 - y);
+        w = ones(n, 1);
+        w(r &gt; e) = e ./ r(r &gt; e);
+        t1 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
+        <span class="keyword">if</span> norm(t1 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
+        t0 = t1;
+    <span class="keyword">end</span>
+    y(n) = -4;
+    <span class="keyword">for</span> o = 1 : 1000
+        r = abs(p * t0 - y);
+        w = ones(n, 1);
+        w(r &gt; e) = e ./ r(r &gt; e);
+        t2 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
+        <span class="keyword">if</span> norm(t2 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
+        t0 = t2;
+    <span class="keyword">end</span>
+    F1 = P * t1;
+    F2 = P * t2;
+    err = max(F1-F2)
+    figure(<span class="string">'Name'</span>, <span class="string">'example 6-1 C'</span>); clf; hold <span class="string">on</span>;
+    axis([-4 4 -4.5 3.5]);
+    plot(X, P * t1, <span class="string">'g-'</span>, X, P * t2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
+    legend(<span class="string">'without any outlier'</span>, <span class="string">'with outliers'</span>, <span class="string">'Input Data'</span>);
+    setFigure(gca, <span class="string">'example 6-1 Compare Least Huber with Least L1'</span>);
 
-	<span class="comment">% save figure</span>
-	saveas(gcf, <span class="string">'eg6_1_C'</span>, <span class="string">'png'</span>);
+    <span class="comment">% save figure</span>
+    saveas(gcf, <span class="string">'eg6_1_C'</span>, <span class="string">'png'</span>);
 <span class="keyword">end</span>
 </pre><pre class="codeoutput">
 err =
@@ -165,87 +165,87 @@ err =
 %
 %% Source Code
 function eg6_1(n, N)
-	% init
-	rng(0);
-	% recommended, use it in future instead of
-	% rand('state', 0); randn('state', 0);
-	if nargin < 2
-		n = 10; N = 1000;
-	end
+    % init
+    rng(0);
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 2
+        n = 10; N = 1000;
+    end
 
-	% constant
-	x = linspace(-3, 3, n)';
-	X = linspace(-4, 4, N)';
-	y = x + 0.2 * randn(n, 1);
-	y(n) = -4;
+    % constant
+    x = linspace(-3, 3, n)';
+    X = linspace(-4, 4, N)';
+    y = x + 0.2 * randn(n, 1);
+    y(n) = -4;
 
-	% plot preparation
-	figure('Name', 'example 6-1 A'); clf; hold on;
+    % plot preparation
+    figure('Name', 'example 6-1 A'); clf; hold on;
 
-	p(:, 1) = ones(n, 1);
-	p(:, 2) = x;
-	P(:, 1) = ones(N, 1);
-	P(:, 2) = X;
-	t0 = p \ y;
+    p(:, 1) = ones(n, 1);
+    p(:, 2) = x;
+    P(:, 1) = ones(N, 1);
+    P(:, 2) = X;
+    t0 = p \ y;
 
-	e = 1;
+    e = 1;
 
-	id = 1;
-	for o = 1 : 1000
-		r = abs(p * t0 - y);
-		% Least Huber Loss
-		w = ones(n, 1);
-		w(r > e) = e ./ r(r > e);
-		t = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
-		if norm(t - t0) < 0.001, break, end
-		if (o <= 3)
-			plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
-			id = id + 1;
-		end
-		t0 = t;
-	end
+    id = 1;
+    for o = 1 : 1000
+        r = abs(p * t0 - y);
+        % Least Huber Loss
+        w = ones(n, 1);
+        w(r > e) = e ./ r(r > e);
+        t = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
+        if norm(t - t0) < 0.001, break, end
+        if (o <= 3)
+            plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
+            id = id + 1;
+        end
+        t0 = t;
+    end
 
-	% plot final iteration result
-	plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
-	saveas(gcf, 'eg6_1_A', 'png');
-	figure('Name', 'example 6-1 B'); clf; hold on;
-	axis([-4 4 -4.5 3.5]);
-	plot(X, P * t, 'g-', x, y, 'bo');
-	setFigure(gca, 'example 6-1 final result');
+    % plot final iteration result
+    plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
+    saveas(gcf, 'eg6_1_A', 'png');
+    figure('Name', 'example 6-1 B'); clf; hold on;
+    axis([-4 4 -4.5 3.5]);
+    plot(X, P * t, 'g-', x, y, 'bo');
+    setFigure(gca, 'example 6-1 final result');
 
-	% save figure
-	saveas(gcf, 'eg6_1_B', 'png');
+    % save figure
+    saveas(gcf, 'eg6_1_B', 'png');
 
-	e = 0.01;
-	y(n) = x(n) + 0.2 * randn;
-	for o = 1 : 1000
-		r = abs(p * t0 - y);
-		w = ones(n, 1);
-		w(r > e) = e ./ r(r > e);
-		t1 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
-		if norm(t1 - t0) < 0.001, break, end
-		t0 = t1;
-	end
-	y(n) = -4;
-	for o = 1 : 1000
-		r = abs(p * t0 - y);
-		w = ones(n, 1);
-		w(r > e) = e ./ r(r > e);
-		t2 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
-		if norm(t2 - t0) < 0.001, break, end
-		t0 = t2;
-	end
-	F1 = P * t1;
-	F2 = P * t2;
-	err = max(F1-F2)
-	figure('Name', 'example 6-1 C'); clf; hold on;
-	axis([-4 4 -4.5 3.5]);
-	plot(X, P * t1, 'g-', X, P * t2, 'r-', x, y, 'bo');
-	legend('without any outlier', 'with outliers', 'Input Data');
-	setFigure(gca, 'example 6-1 Compare Least Huber with Least L1');
+    e = 0.01;
+    y(n) = x(n) + 0.2 * randn;
+    for o = 1 : 1000
+        r = abs(p * t0 - y);
+        w = ones(n, 1);
+        w(r > e) = e ./ r(r > e);
+        t1 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
+        if norm(t1 - t0) < 0.001, break, end
+        t0 = t1;
+    end
+    y(n) = -4;
+    for o = 1 : 1000
+        r = abs(p * t0 - y);
+        w = ones(n, 1);
+        w(r > e) = e ./ r(r > e);
+        t2 = (p' * (repmat(w, 1, 2) .* p)) \ (p' * (w .* y));
+        if norm(t2 - t0) < 0.001, break, end
+        t0 = t2;
+    end
+    F1 = P * t1;
+    F2 = P * t2;
+    err = max(F1-F2)
+    figure('Name', 'example 6-1 C'); clf; hold on;
+    axis([-4 4 -4.5 3.5]);
+    plot(X, P * t1, 'g-', X, P * t2, 'r-', x, y, 'bo');
+    legend('without any outlier', 'with outliers', 'Input Data');
+    setFigure(gca, 'example 6-1 Compare Least Huber with Least L1');
 
-	% save figure
-	saveas(gcf, 'eg6_1_C', 'png');
+    % save figure
+    saveas(gcf, 'eg6_1_C', 'png');
 end
 ##### SOURCE END #####
 --></body></html>

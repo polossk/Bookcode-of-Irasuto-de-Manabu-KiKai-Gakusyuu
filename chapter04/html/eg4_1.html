@@ -67,47 +67,47 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h1>Example 4.1 Subspace-Constrained Regression with Least Square Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 4.1</li><li><b>Code in book</b> : Figure 4.3</li><li><b>Output</b> : <tt>eg4_1.png</tt></li><li><b>Usage</b> : <tt>eg4_1(), eg4_1(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg4_1(n, N)
-	<span class="comment">% init</span>
-	rng(0);
-	<span class="comment">% recommended, use it in future instead of</span>
-	<span class="comment">% rand('state', 0); randn('state', 0);</span>
-	<span class="keyword">if</span> nargin &lt; 2
-		n = 50; N = 1000;
-	<span class="keyword">end</span>
+    <span class="comment">% init</span>
+    rng(0);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 2
+        n = 50; N = 1000;
+    <span class="keyword">end</span>
 
-	<span class="comment">% constant</span>
-	x = linspace(-3, 3, n)';
-	X = linspace(-3, 3, N)';
-	pix = pi * x;
-	y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+    <span class="comment">% constant</span>
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
 
-	<span class="comment">% base function</span>
-	p(:, 1) = ones(n, 1);
-	P(:, 1) = ones(N, 1);
-	<span class="keyword">for</span> jj = 1 : 15
-		p(:, 2 * jj) = sin(jj / 2 * x);
-		p(:, 2 * jj + 1) = cos(jj / 2 * x);
-		P(:, 2 * jj) = sin(jj / 2 * X);
-		P(:, 2 * jj + 1) = cos(jj / 2 * X);
-	<span class="keyword">end</span>
+    <span class="comment">% base function</span>
+    p(:, 1) = ones(n, 1);
+    P(:, 1) = ones(N, 1);
+    <span class="keyword">for</span> jj = 1 : 15
+        p(:, 2 * jj) = sin(jj / 2 * x);
+        p(:, 2 * jj + 1) = cos(jj / 2 * x);
+        P(:, 2 * jj) = sin(jj / 2 * X);
+        P(:, 2 * jj + 1) = cos(jj / 2 * X);
+    <span class="keyword">end</span>
 
-	<span class="comment">% solve</span>
-	t1 = p \ y;
-	F1 = P * t1;
-	t2 = (p * diag([ones(1, 11) zeros(1, 20)])) \ y;
-	F2 = P * t2;
+    <span class="comment">% solve</span>
+    t1 = p \ y;
+    F1 = P * t1;
+    t2 = (p * diag([ones(1, 11) zeros(1, 20)])) \ y;
+    F2 = P * t2;
 
-	<span class="comment">% plot</span>
-	figure(<span class="string">'Name'</span>, <span class="string">'example 4-1'</span>); clf; hold <span class="string">on</span>;
+    <span class="comment">% plot</span>
+    figure(<span class="string">'Name'</span>, <span class="string">'example 4-1'</span>); clf; hold <span class="string">on</span>;
 
-	<span class="comment">% plot figure 1</span>
-	plot(X, F1, <span class="string">'g-'</span>, X, F2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
-	legend(<span class="string">'LS'</span>, <span class="string">'Subspace-Constrained LS'</span>, <span class="string">'Input Data'</span>, <span class="string">'Location'</span>, <span class="string">'southeast'</span>);
-	axis([-2.8, 2.8 -0.8 1.2]);
-	setFigure(gca, <span class="string">'LS &amp; Subspace-Constrained LS'</span>);
+    <span class="comment">% plot figure 1</span>
+    plot(X, F1, <span class="string">'g-'</span>, X, F2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
+    legend(<span class="string">'LS'</span>, <span class="string">'Subspace-Constrained LS'</span>, <span class="string">'Input Data'</span>, <span class="string">'Location'</span>, <span class="string">'southeast'</span>);
+    axis([-2.8, 2.8 -0.8 1.2]);
+    setFigure(gca, <span class="string">'LS &amp; Subspace-Constrained LS'</span>);
 
-	<span class="comment">% save figure</span>
-	saveas(gcf, <span class="string">'eg4_1'</span>, <span class="string">'png'</span>);
+    <span class="comment">% save figure</span>
+    saveas(gcf, <span class="string">'eg4_1'</span>, <span class="string">'png'</span>);
 <span class="keyword">end</span>
 </pre><pre class="codeoutput">Warning: Rank deficient, rank = 11, tol =  7.850462e-14. 
 </pre><img vspace="5" hspace="5" src="eg4_1_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
@@ -121,47 +121,47 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %
 %% Source Code
 function eg4_1(n, N)
-	% init
-	rng(0);
-	% recommended, use it in future instead of
-	% rand('state', 0); randn('state', 0);
-	if nargin < 2
-		n = 50; N = 1000;
-	end
+    % init
+    rng(0);
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 2
+        n = 50; N = 1000;
+    end
 
-	% constant
-	x = linspace(-3, 3, n)';
-	X = linspace(-3, 3, N)';
-	pix = pi * x;
-	y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+    % constant
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
 
-	% base function
-	p(:, 1) = ones(n, 1);
-	P(:, 1) = ones(N, 1);
-	for jj = 1 : 15
-		p(:, 2 * jj) = sin(jj / 2 * x);
-		p(:, 2 * jj + 1) = cos(jj / 2 * x);
-		P(:, 2 * jj) = sin(jj / 2 * X);
-		P(:, 2 * jj + 1) = cos(jj / 2 * X);
-	end
+    % base function
+    p(:, 1) = ones(n, 1);
+    P(:, 1) = ones(N, 1);
+    for jj = 1 : 15
+        p(:, 2 * jj) = sin(jj / 2 * x);
+        p(:, 2 * jj + 1) = cos(jj / 2 * x);
+        P(:, 2 * jj) = sin(jj / 2 * X);
+        P(:, 2 * jj + 1) = cos(jj / 2 * X);
+    end
 
-	% solve
-	t1 = p \ y;
-	F1 = P * t1;
-	t2 = (p * diag([ones(1, 11) zeros(1, 20)])) \ y;
-	F2 = P * t2;
+    % solve
+    t1 = p \ y;
+    F1 = P * t1;
+    t2 = (p * diag([ones(1, 11) zeros(1, 20)])) \ y;
+    F2 = P * t2;
 
-	% plot
-	figure('Name', 'example 4-1'); clf; hold on;
+    % plot
+    figure('Name', 'example 4-1'); clf; hold on;
 
-	% plot figure 1
-	plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
-	legend('LS', 'Subspace-Constrained LS', 'Input Data', 'Location', 'southeast');
-	axis([-2.8, 2.8 -0.8 1.2]);
-	setFigure(gca, 'LS & Subspace-Constrained LS');
+    % plot figure 1
+    plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
+    legend('LS', 'Subspace-Constrained LS', 'Input Data', 'Location', 'southeast');
+    axis([-2.8, 2.8 -0.8 1.2]);
+    setFigure(gca, 'LS & Subspace-Constrained LS');
 
-	% save figure
-	saveas(gcf, 'eg4_1', 'png');
+    % save figure
+    saveas(gcf, 'eg4_1', 'png');
 end
 ##### SOURCE END #####
 --></body></html>

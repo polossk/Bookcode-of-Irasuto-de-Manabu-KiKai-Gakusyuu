@@ -67,50 +67,50 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 
 
   </style></head><body><div class="content"><h1>Example 5.1 L1-Constrained Regression with Least Square Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 5.7</li><li><b>Code in book</b> : Figure 5.8</li><li><b>Output</b> : <tt>eg5_1.png</tt></li><li><b>Usage</b> : <tt>eg5_1(), eg5_1(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg5_1(n, N)
-	<span class="comment">% init</span>
-	rng(0);
-	<span class="comment">% recommended, use it in future instead of</span>
-	<span class="comment">% rand('state', 0); randn('state', 0);</span>
-	<span class="keyword">if</span> nargin &lt; 2
-		n = 50; N = 1000;
-	<span class="keyword">end</span>
+    <span class="comment">% init</span>
+    rng(0);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 2
+        n = 50; N = 1000;
+    <span class="keyword">end</span>
 
-	<span class="comment">% constant</span>
-	x = linspace(-3, 3, n)';
-	X = linspace(-3, 3, N)';
-	pix = pi * x;
-	y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+    <span class="comment">% constant</span>
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
 
-	<span class="comment">% kernel function</span>
-	x2 = x .^ 2;
-	X2 = X .^ 2;
-	hh = 2 * 0.3 ^ 2;
-	l = 0.1;
-	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
-	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
-	t0 = randn(n, 1);
+    <span class="comment">% kernel function</span>
+    x2 = x .^ 2;
+    X2 = X .^ 2;
+    hh = 2 * 0.3 ^ 2;
+    l = 0.1;
+    k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
+    K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
+    t0 = randn(n, 1);
 
-	k2 = k ^ 2;
-	ky = k * y;
+    k2 = k ^ 2;
+    ky = k * y;
 
-	<span class="keyword">for</span> o = 1 : 1000
-		t1 = (k2 + l * pinv(diag(abs(t0)))) \ ky;
-		<span class="keyword">if</span> norm(t1 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
-		t0 = t1;
-	<span class="keyword">end</span>
+    <span class="keyword">for</span> o = 1 : 1000
+        t1 = (k2 + l * pinv(diag(abs(t0)))) \ ky;
+        <span class="keyword">if</span> norm(t1 - t0) &lt; 0.001, <span class="keyword">break</span>, <span class="keyword">end</span>
+        t0 = t1;
+    <span class="keyword">end</span>
 
-	F1 = K * t1;
-	t2 = (k ^ 2 + l * eye(n)) \ (k * y);
-	F2 = K * t2;
+    F1 = K * t1;
+    t2 = (k ^ 2 + l * eye(n)) \ (k * y);
+    F2 = K * t2;
 
-	figure(<span class="string">'Name'</span>, <span class="string">'example 5-1'</span>); clf; hold <span class="string">on</span>;
-	plot(X, F1, <span class="string">'g-'</span>, X, F2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
-	legend(<span class="string">'L1-Constrained LS'</span>, <span class="string">'L2-Constrained LS'</span>, <span class="string">'Input Data'</span>);
-	axis([-2.8 2.8 -1 1.5]);
-	setFigure(gca, <span class="string">'L1-Constrained LS &amp; L2-Constrained LS'</span>);
+    figure(<span class="string">'Name'</span>, <span class="string">'example 5-1'</span>); clf; hold <span class="string">on</span>;
+    plot(X, F1, <span class="string">'g-'</span>, X, F2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
+    legend(<span class="string">'L1-Constrained LS'</span>, <span class="string">'L2-Constrained LS'</span>, <span class="string">'Input Data'</span>);
+    axis([-2.8 2.8 -1 1.5]);
+    setFigure(gca, <span class="string">'L1-Constrained LS &amp; L2-Constrained LS'</span>);
 
-	<span class="comment">% save figure</span>
-	saveas(gcf, <span class="string">'eg5_1'</span>, <span class="string">'png'</span>);
+    <span class="comment">% save figure</span>
+    saveas(gcf, <span class="string">'eg5_1'</span>, <span class="string">'png'</span>);
 <span class="keyword">end</span>
 </pre><img vspace="5" hspace="5" src="eg5_1_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
 ##### SOURCE BEGIN #####
@@ -123,50 +123,50 @@ table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px soli
 %
 %% Source Code
 function eg5_1(n, N)
-	% init
-	rng(0);
-	% recommended, use it in future instead of
-	% rand('state', 0); randn('state', 0);
-	if nargin < 2
-		n = 50; N = 1000;
-	end
+    % init
+    rng(0);
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 2
+        n = 50; N = 1000;
+    end
 
-	% constant
-	x = linspace(-3, 3, n)';
-	X = linspace(-3, 3, N)';
-	pix = pi * x;
-	y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+    % constant
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
 
-	% kernel function
-	x2 = x .^ 2;
-	X2 = X .^ 2;
-	hh = 2 * 0.3 ^ 2;
-	l = 0.1;
-	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
-	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
-	t0 = randn(n, 1);
-	
-	k2 = k ^ 2;
-	ky = k * y;
+    % kernel function
+    x2 = x .^ 2;
+    X2 = X .^ 2;
+    hh = 2 * 0.3 ^ 2;
+    l = 0.1;
+    k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x') / hh);
+    K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / hh);
+    t0 = randn(n, 1);
+    
+    k2 = k ^ 2;
+    ky = k * y;
 
-	for o = 1 : 1000
-		t1 = (k2 + l * pinv(diag(abs(t0)))) \ ky;
-		if norm(t1 - t0) < 0.001, break, end
-		t0 = t1;
-	end
+    for o = 1 : 1000
+        t1 = (k2 + l * pinv(diag(abs(t0)))) \ ky;
+        if norm(t1 - t0) < 0.001, break, end
+        t0 = t1;
+    end
 
-	F1 = K * t1;
-	t2 = (k ^ 2 + l * eye(n)) \ (k * y);
-	F2 = K * t2;
+    F1 = K * t1;
+    t2 = (k ^ 2 + l * eye(n)) \ (k * y);
+    F2 = K * t2;
 
-	figure('Name', 'example 5-1'); clf; hold on;
-	plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
-	legend('L1-Constrained LS', 'L2-Constrained LS', 'Input Data');
-	axis([-2.8 2.8 -1 1.5]);
-	setFigure(gca, 'L1-Constrained LS & L2-Constrained LS');
+    figure('Name', 'example 5-1'); clf; hold on;
+    plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
+    legend('L1-Constrained LS', 'L2-Constrained LS', 'Input Data');
+    axis([-2.8 2.8 -1 1.5]);
+    setFigure(gca, 'L1-Constrained LS & L2-Constrained LS');
 
-	% save figure
-	saveas(gcf, 'eg5_1', 'png');
+    % save figure
+    saveas(gcf, 'eg5_1', 'png');
 end
 ##### SOURCE END #####
 --></body></html>
