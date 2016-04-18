@@ -35,11 +35,15 @@ function eg3_1(n, N)
 
     % plot
     figure('Name', 'example 3-1'); clf; hold on;
-    plot(X, F, 'g-');
-    plot(x, y, 'bo');
-    setFigure(gca, 'example 3-1');
+    plot(X, F, 'g-'); plot(x, y, 'bo');
+    setFigure('example 3-1');
 
     % save figure
     saveas(gcf, 'eg3_1', 'png');
+
+    % sub-function, figure setting
+    function [] = setFigure( tag )
+        title(tag); xlabel('\itx');
+        xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+    end
 end
-%%

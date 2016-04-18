@@ -76,7 +76,8 @@ function eg6_3(n, N)
     F4 = K * t;
 
     figure('Name', 'example 6-3'); clf; hold on;
-    axis([-2.8 2.8 -1 1.5]);
+    axis([-2.8 2.8 -1 1.5]); xlabel('\itx');
+    title('example 6-3');
     plot(X, F1, 'b-', X, F2, 'm-', X, F3, 'g-', X, F4, 'r-', x, y, 'cp');
     legend('LS', 'L1-Constrained LS', ...
         'Least Huber', 'L1-Constrained Least Huber', ...

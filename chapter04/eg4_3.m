@@ -80,9 +80,17 @@ function eg4_3(n, N)
 
     figure('Name', 'example 4-3 B'); clf; hold on;
     plot(X, F, 'g-', x, y, 'bo');
-    axis([-2.8 2.8 -0.7 1.7]);
-    title = strcat( 'final: (h, \lambda) = (', num2str(hidx(gghl)), ', ', num2str(L), ')' );
-    setFigure(gca, title);
+    axis([-2.8 2.8 -0.7 1.7]); xlabel('\itx');
+    title(strcat( 'final: (h, \lambda) = (', num2str(hidx(gghl)), ', ', num2str(L), ')' ));
+
     % save figure
     saveas(gcf, 'eg4_3_B', 'png');
+
+    % sub-function, plot sub-figure
+    function [] = plotFigure( M, N, id, h, lambda, x1, y1, x2, y2 )
+        subplot(M, N, id);
+        plot(x1, y1, 'g-', x2, y2, 'b.');
+        axis([-2.8 2.8 -0.7 1.7]);
+        title(strcat( '(h, \lambda) = (', h, ', ', lambda, ')' ));
+    end
 end

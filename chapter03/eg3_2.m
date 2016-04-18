@@ -49,11 +49,22 @@ function eg3_2(n, N)
     plotFigure(3, 2, id, num2str(o), X, K * t, x, y);
     saveas(gcf, 'eg3_2_A', 'png');
     figure('Name', 'example 3-2 B'); clf; hold on;
-    plot(X, K * t, 'g-');
-    plot(x, y, 'bo');
-    setFigure(gca, 'example 3-2 final result');
+    plot(X, K * t, 'g-'); plot(x, y, 'bo');
+    setFigure('example 3-2 final result');
 
     % save figure
     saveas(gcf, 'eg3_2_B', 'png');
+
+    % sub-function, plot sub-figure
+    function [] = plotFigure( M, N, id, titlesuffix, x1, y1, x2, y2 )
+        subplot(M, N, id);
+        plot(x1, y1, 'g-', x2, y2, 'b.');
+        setFigure(strcat('Iteration: ', titlesuffix));
+    end
+
+    % sub-function, figure setting
+    function [] = setFigure( tag )
+        title(tag); xlabel('\itx');
+        xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+    end
 end
-%%

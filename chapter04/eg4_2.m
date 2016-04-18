@@ -41,8 +41,8 @@ function eg4_2(n, N)
     % plot figure 1
     plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
     legend('LS', 'L2-Constrained LS', 'Input Data');
-    axis([-2.8 2.8 -1 1.5]);
-    setFigure(gca, 'LS & L2-Constrained LS');
+    axis([-2.8 2.8 -1 1.5]); xlabel('\itx');
+    title('LS & L2-Constrained LS');
 
     % save figure
     saveas(gcf, 'eg4_2', 'png');

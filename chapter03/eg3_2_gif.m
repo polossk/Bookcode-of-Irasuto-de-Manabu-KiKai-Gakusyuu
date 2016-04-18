@@ -32,7 +32,6 @@ function eg3_2_gif(n, N)
     eps = 1e-6;
     id = 0;
 
-
     figure('Visible', 'off');
     plot(X, K * t0, 'g-', x, y, 'bo');
     xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);

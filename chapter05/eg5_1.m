@@ -47,7 +47,8 @@ function eg5_1(n, N)
     plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
     legend('L1-Constrained LS', 'L2-Constrained LS', 'Input Data');
     axis([-2.8 2.8 -1 1.5]);
-    setFigure(gca, 'L1-Constrained LS & L2-Constrained LS');
+    title('L1-Constrained LS & L2-Constrained LS');
+    xlabel('\itx'); ylabel('\itx');
 
     % save figure
     saveas(gcf, 'eg5_1', 'png');

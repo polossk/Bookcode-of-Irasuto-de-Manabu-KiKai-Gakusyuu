@@ -50,14 +50,17 @@ function eg6_2(n, N)
     % plot final iteration result
     plotFigure(2, 2, id, num2str(o), X, P * t, x, y);
     saveas(gcf, 'eg6_2_A', 'png');
-    figure('Name', 'example 6-2 B'); clf; hold on;
+
+	% plot result
+	figure('Name', 'example 6-2 B'); clf; hold on;
     axis([-4 4 -4.5 3.5]);
     plot(X, P * t, 'g-', x, y, 'bo');
-    setFigure(gca, 'example 6-2 final result');
+    title('example 6-2 final result');
 
     % save figure
     saveas(gcf, 'eg6_2_B', 'png');
 
+	% with outlier
     e = 1;
     y(n) = x(n) + 0.2 * randn;
     for o = 1 : 1000
@@ -81,11 +84,19 @@ function eg6_2(n, N)
     F2 = P * t2;
     err = max(F1-F2)
     figure('Name', 'example 6-2 C'); clf; hold on;
-    axis([-4 4 -4.5 3.5]);
+    axis([-4 4 -4.5 3.5]); xlabel('\itx');
     plot(X, P * t1, 'g-', X, P * t2, 'r-', x, y, 'bo');
     legend('without any outlier', 'with outliers', 'Input Data');
-    setFigure(gca, 'example 6-2 Compare Least Tukey Loss with Least L1');
+    title('example 6-2 Compare Least Tukey Loss with Least L1');
 
     % save figure
     saveas(gcf, 'eg6_2_C', 'png');
+
+    % sub-function, plot sub-figure
+    function [] = plotFigure( M, N, id, titlesuffix, x1, y1, x2, y2 )
+        subplot(M, N, id);
+        plot(x1, y1, 'g-', x2, y2, 'bo');
+        axis([-4 4 -4.5 3.5]); xlabel('\itx');
+        title(strcat('Iteration: ', titlesuffix));
+    end
 end

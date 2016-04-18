@@ -43,8 +43,8 @@ function eg4_1(n, N)
     % plot figure 1
     plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
     legend('LS', 'Subspace-Constrained LS', 'Input Data', 'Location', 'southeast');
-    axis([-2.8, 2.8 -0.8 1.2]);
-    setFigure(gca, 'LS & Subspace-Constrained LS');
+    axis([-2.8, 2.8 -0.8 1.2]); xlabel('\itx');
+    title('LS & Subspace-Constrained LS');
 
     % save figure
     saveas(gcf, 'eg4_1', 'png');
