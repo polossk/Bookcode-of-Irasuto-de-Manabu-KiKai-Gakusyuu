@@ -17,12 +17,14 @@
 
 ## Index
 - Supervised Regression
-	- Chapter 03 [example 3.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_1.html) [example 3.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2.html) [gif](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2_gif.html)
-	- Chapter 04 [example 4.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_1.html) [example 4.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_2.html) [example 4.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_3.html)
-	- Chapter 05 [example 5.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg5_1.html)
-	- Chapter 06 [example 6.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_1.html) [example 6.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_2.html) [example 6.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_3.html)
+	- Chapter 03 Least Squares Regression [example 3.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_1.html) [example 3.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2.html) [gif](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2_gif.html)
+	- Chapter 04 Constrained Least Squares Regression [example 4.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_1.html) [example 4.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_2.html) [example 4.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_3.html)
+	- Chapter 05 LASSO and Ridge Regression[example 5.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg5_1.html)
+	- Chapter 06 Robust Regression [example 6.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_1.html) [example 6.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_2.html) [example 6.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_3.html)
 - Supervised Classification
-	- Chapter 07(in progress)
+	- Chapter 07 Least Squares Classification [example 7.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg7_1.html)
+	- Chapter 08 Support Vector Machine [example 8.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg8_1.html) [example 8.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg8_2.html)
+	- Chapter 09 (in progress)
 
 ## Copyright
 Use this code whatever you want. Star this repository if you like, and it will be very generous of you!
