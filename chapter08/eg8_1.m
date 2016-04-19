@@ -41,7 +41,6 @@ function eg8_1(n)
     classes = SVMModel.ClassNames;
     sv = SVMModel.SupportVectors;
     figure('Name', 'SVM Example');
-    title('SVM Example');
     gscatter(x(:, 1), x(:, 2), y);
     hold on;
     plot(sv(:, 1), sv(:, 2), 'ko', 'MarkerSize', 8);
