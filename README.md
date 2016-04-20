@@ -17,15 +17,14 @@
 
 ## Index
 - __Supervised Regression__
-	- __Chapter 03__ _Least Squares Regression_ [example 3.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_1.html) [example 3.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2.html) [gif](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg3_2_gif.html)
-	- __Chapter 04__ _Constrained Least Squares Regression_ [example 4.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_1.html) [example 4.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_2.html) [example 4.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg4_3.html)
-	- __Chapter 05__ _LASSO and Ridge Regression_ [example 5.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg5_1.html)
-	- __Chapter 06__ _Robust Regression_ [example 6.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_1.html) [example 6.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_2.html) [example 6.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg6_3.html)
+	- __Chapter 03__ _Least Squares Regression_ [example 3.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg03_1.html) [example 3.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg03_2.html) [gif](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg03_2_gif.html)
+	- __Chapter 04__ _Constrained Least Squares Regression_ [example 4.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg04_1.html) [example 4.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg04_2.html) [example 4.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg04_3.html)
+	- __Chapter 05__ _LASSO and Ridge Regression_ [example 5.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg05_1.html)
+	- __Chapter 06__ _Robust Regression_ [example 6.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg06_1.html) [example 6.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg06_2.html) [example 6.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg06_3.html)
 - __Supervised Classification__
-	- __Chapter 07__ _Least Squares Classification_ [example 7.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg7_1.html)
-	- __Chapter 08__ _Support Vector Machine_ [example 8.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg8_1.html) [example 8.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg8_2.html)
-	- __Chapter 09__ _Bagging and Adaboost_ [example 9.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg9_1.html) [example 9.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg9_2.html) [example 9.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/examples/eg9_3.html)
-
+	- __Chapter 07__ _Least Squares Classification_ [example 7.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg07_1.html)
+	- __Chapter 08__ _Support Vector Machine_ [example 8.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg08_1.html) [example 8.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg08_2.html)
+	- __Chapter 09__ _Bagging and Adaboost_ [example 9.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg09_1.html) [example 9.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg09_2.html) [example 9.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg09_3.html)
 	- __Chapter 10__ (in progress)
 
 ## Copyright
