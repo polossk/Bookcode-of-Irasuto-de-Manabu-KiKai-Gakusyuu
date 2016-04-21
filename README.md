@@ -25,7 +25,17 @@
 	- __Chapter 07__ _Least Squares Classification_ [example 7.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg07_1.html)
 	- __Chapter 08__ _Support Vector Machine_ [example 8.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg08_1.html) [example 8.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg08_2.html)
 	- __Chapter 09__ _Bagging and Adaboost_ [example 9.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg09_1.html) [example 9.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg09_2.html) [example 9.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg09_3.html)
-	- __Chapter 10__ (in progress)
+	- __Chapter 10__ _Logistic Regression and Least-Squares Probabilistic Classifierand_ [example 10.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg10_1.html) [gif](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg10_1_gif.html) [example 10.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg10_2.html)
+	- __Chapter 11__ _Conditional Random Field_ (no examples provided)
+- __Unsupervised Learning__
+	- __Chapter 12__ _Anomaly Detection_ [example 12.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg12_1.html) [example 12.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg12_2.html)
+	- __Chapter 13__ _Unsupervised Dimension Reduction_ [example 13.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg13_1.html) [example 13.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg13_2.html) [example 13.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg13_3.html)
+	- __Chapter 14__ _Cluster_ (in progress)
+- __Recently Emergent Algorithms__
+	- __Chapter 15__ _Online Machine Learning_ (in progress)
+	- __Chapter 16__ _Semi-supervised Learning_ (in progress)
+	- __Chapter 17__ _Supervised Dimension Reduction_ (in progress)
+	- __Chapter 18__ _Transfer Learning_ (in progress)
 
 ## Copyright
 Use this code whatever you want. Star this repository if you like, and it will be very generous of you!
