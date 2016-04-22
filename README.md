@@ -30,12 +30,12 @@
 - __Unsupervised Learning__
 	- __Chapter 12__ _Anomaly Detection_ [example 12.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg12_1.html) [example 12.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg12_2.html)
 	- __Chapter 13__ _Unsupervised Dimension Reduction_ [example 13.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg13_1.html) [example 13.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg13_2.html) [example 13.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg13_3.html)
-	- __Chapter 14__ _Cluster_ (in progress)
+	- __Chapter 14__ _Cluster_ [example 14.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg14_1.html) [example 14.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg14_2.html) [example 14.3](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg14_3.html)
 - __Recently Emergent Algorithms__
-	- __Chapter 15__ _Online Machine Learning_ (in progress)
-	- __Chapter 16__ _Semi-supervised Learning_ (in progress)
-	- __Chapter 17__ _Supervised Dimension Reduction_ (in progress)
-	- __Chapter 18__ _Transfer Learning_ (in progress)
+	- __Chapter 15__ _Online Machine Learning_ [example 15.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg15_1.html) [example 15.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg15_2.html)
+	- __Chapter 16__ _Semi-supervised Learning_ [example 16.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg16_1.html)
+	- __Chapter 17__ _Supervised Dimension Reduction_ [example 17.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg17_1.html) [example 17.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg17_2.html)
+	- __Chapter 18__ _Transfer Learning_ [example 18.1](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg18_1.html) [example 18.2](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/html/eg18_2.html)
 
 ## Copyright
 Use this code whatever you want. Star this repository if you like, and it will be very generous of you!

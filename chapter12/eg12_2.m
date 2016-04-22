@@ -41,7 +41,7 @@ function eg12_2(n)
     s = r * KLIEP(k, r);
 
     figure('Name', 'Kullback-Leibler Divergence Example A');
-    clf; hold on; title('Data Distribution');
+    clf; hold on; suptitle('Data Distribution');
     bins = -2.5 : 1 : 5.5;
     subplot(2, 1, 1);
     histogram(x, bins); legend('Regular');
