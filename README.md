@@ -9,10 +9,9 @@
 
 >[Machine Learning Notebook @Polo's Blog](http://blog.polossk.com/ml-lessonnote/)
 
->[Bookcode with Matlab Publish](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/)
+>[图解机器学习 全书代码 @图灵社区](http://www.ituring.com.cn/article/214390)
 
-
->[git code](https://github.com/polossk/Bookcode-of-Irasuto-de-Manabu-KiKai-Gakusyuu/) [git site](https://github.com/polossk/Bookcode-of-Irasuto-de-Manabu-KiKai-Gakusyuu-Web/)
+>[Bookcode with Matlab Publish](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/) [git code](https://github.com/polossk/Bookcode-of-Irasuto-de-Manabu-KiKai-Gakusyuu/) [git site](https://github.com/polossk/Bookcode-of-Irasuto-de-Manabu-KiKai-Gakusyuu-Web/)
 
 ## Note
 - Using Matlab to understand all the algorithm introduced in this book.
