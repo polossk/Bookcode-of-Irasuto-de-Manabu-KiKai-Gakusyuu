@@ -11,6 +11,9 @@
 
 >[Bookcode with Matlab Publish](http://bookcode.polossk.com/Irasuto-de-Manabu-KiKai-Gakusyuu/)
 
+
+>[git code](https://github.com/polossk/Bookcode-of-Irasuto-de-Manabu-KiKai-Gakusyuu/) [git site](https://github.com/polossk/Bookcode-of-Irasuto-de-Manabu-KiKai-Gakusyuu-Web/)
+
 ## Note
 - Using Matlab to understand all the algorithm introduced in this book.
 - All code here generate some figures to comprehend the procedure clearly.
