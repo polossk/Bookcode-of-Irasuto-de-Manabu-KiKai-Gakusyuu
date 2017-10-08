@@ -1,0 +1,162 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Example 10.2 Least-Squares Probabilistic Classifier</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-21"><meta name="DC.source" content="eg10_2.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Example 10.2 Least-Squares Probabilistic Classifier</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 10.5</li><li><b>Code in book</b> : Figure 10.6</li><li><b>Output</b> : <tt>eg10_2.png</tt></li><li><b>Usage</b> : <tt>eg10_2(), eg10_2(90, 3, 100)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg10_2(n, c, N)
+    <span class="comment">% init</span>
+    rng(0, <span class="string">'v5uniform'</span>); rng(0, <span class="string">'v5normal'</span>);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 3
+        n = 90; c = 3; N = 100;
+    <span class="keyword">end</span>
+	y = ones(n / c, 1) * (1 : c);
+	y = y(:);
+	x = randn(n / c, c) + repmat(linspace(-3, 3, c), n / c, 1);
+	x = x(:);
+	hh = 2 * 1 ^ 2; l = 0.1;
+	X = linspace(-5, 5, N )';
+	x2 = x .^ 2;
+	X2 = X .^ 2;
+	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * (x * x')) / hh);
+	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * (X * x')) / hh);
+	Kt = zeros(N, c);
+	<span class="keyword">for</span> yy = 1 : c
+	    yk = (y == yy);
+	    ky = k(:, yk);
+	    ty = (ky' * ky + l * eye(sum(yk))) \ (ky' * yk);
+	    Kt(:, yy) = max(0, K(:, yk) * ty);
+	<span class="keyword">end</span>
+
+	ph = Kt ./ repmat(sum(Kt, 2), 1, c);
+
+	figure(<span class="string">'Name'</span>, <span class="string">'Least-Squares Probabilistic Classifier Example'</span>);
+    clf; hold <span class="string">on</span>;
+    title(<span class="string">'Least-Squares Probabilistic Classifier Example'</span>);
+    axis([-5 5 -0.3 1.8]);
+    plot(X, ph(:, 1), <span class="string">'m-'</span>);
+    plot(X, ph(:, 2 ), <span class="string">'r--'</span>);
+    plot(X, ph(:, 3), <span class="string">'b-.'</span>);
+    plot(x(y == 1), -0.1 * ones(n / c, 1), <span class="string">'mo'</span>);
+    plot(x(y == 2), -0.2 * ones(n / c, 1), <span class="string">'rx'</span>);
+    plot(x(y == 3), -0.1 * ones(n / c, 1), <span class="string">'bv'</span>);
+    legend(<span class="string">'q(y = 1|x)'</span>, <span class="string">'q(y = 2|x)'</span>, <span class="string">'q(y = 3|x)'</span>)
+    saveas(gcf, <span class="string">'eg10_2'</span>, <span class="string">'png'</span>);
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="eg10_2_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Example 10.2 Least-Squares Probabilistic Classifier
+%
+% * *Result in book* : Figure 10.5
+% * *Code in book* : Figure 10.6
+% * *Output* : |eg10_2.png|
+% * *Usage* : |eg10_2(), eg10_2(90, 3, 100)|
+%
+%% Source Code
+function eg10_2(n, c, N)
+    % init
+    rng(0, 'v5uniform'); rng(0, 'v5normal');
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 3
+        n = 90; c = 3; N = 100;
+    end
+	y = ones(n / c, 1) * (1 : c);
+	y = y(:);
+	x = randn(n / c, c) + repmat(linspace(-3, 3, c), n / c, 1);
+	x = x(:);
+	hh = 2 * 1 ^ 2; l = 0.1;
+	X = linspace(-5, 5, N )';
+	x2 = x .^ 2;
+	X2 = X .^ 2;
+	k = exp(-(repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * (x * x')) / hh);
+	K = exp(-(repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * (X * x')) / hh);
+	Kt = zeros(N, c);
+	for yy = 1 : c
+	    yk = (y == yy);
+	    ky = k(:, yk);
+	    ty = (ky' * ky + l * eye(sum(yk))) \ (ky' * yk);
+	    Kt(:, yy) = max(0, K(:, yk) * ty);
+	end
+
+	ph = Kt ./ repmat(sum(Kt, 2), 1, c);
+
+	figure('Name', 'Least-Squares Probabilistic Classifier Example');
+    clf; hold on;
+    title('Least-Squares Probabilistic Classifier Example');
+    axis([-5 5 -0.3 1.8]);
+    plot(X, ph(:, 1), 'm-');
+    plot(X, ph(:, 2 ), 'rREPLACE_WITH_DASH_DASH');
+    plot(X, ph(:, 3), 'b-.');
+    plot(x(y == 1), -0.1 * ones(n / c, 1), 'mo');
+    plot(x(y == 2), -0.2 * ones(n / c, 1), 'rx');
+    plot(x(y == 3), -0.1 * ones(n / c, 1), 'bv');
+    legend('q(y = 1|x)', 'q(y = 2|x)', 'q(y = 3|x)')
+    saveas(gcf, 'eg10_2', 'png');
+end
+##### SOURCE END #####
+--></body></html>

@@ -1,0 +1,256 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Example 4.3 Model Selection with Cross Validation</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-20"><meta name="DC.source" content="eg04_3.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Example 4.3 Model Selection with Cross Validation</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 4.9</li><li><b>Code in book</b> : Figure 4.14</li><li><b>Output</b> : <tt>eg04_3_A.png, eg04_3_B.png</tt></li><li><b>Usage</b> : <tt>eg04_3(), eg04_3(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg04_3(n, N)
+    <span class="comment">% init</span>
+    rng(0, <span class="string">'v5uniform'</span>); rng(0, <span class="string">'v5normal'</span>);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 2
+        n = 50; N = 1000;
+    <span class="keyword">end</span>
+
+    <span class="comment">% constant</span>
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+
+    <span class="comment">% plot preparation</span>
+    figure(<span class="string">'Name'</span>, <span class="string">'example 4-3 A'</span>); clf; hold <span class="string">on</span>;
+
+    <span class="comment">% kernel function</span>
+    x2 = x .^ 2;
+    X2 = X .^ 2;
+    xx = repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x';
+    xX = repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x';
+
+    <span class="comment">% iteration parameter</span>
+    hidx = [0.03 0.3 3];
+    hhs = 2 * hidx .^ 2;
+    ls = [0.0001 0.1 100];
+    m = 5;
+    u = floor(m * (0 : n - 1) / n) + 1;
+    u = u(randperm(n));
+
+    id = 1;
+    g = zeros(3, 3, m);
+    <span class="keyword">for</span> hk = 1 : length(hhs)
+        hh = hhs(hk);
+        hhh = hidx(hk);
+        k = exp(-xx / hh);
+        K = exp(-xX / hh);
+        <span class="keyword">for</span> ii = 1 : m
+            ki = k(u ~= ii, :);
+            kc = k(u == ii, :);
+            yi = y(u ~= ii);
+            yc = y(u == ii);
+            <span class="keyword">for</span> lk = 1 : length(ls)
+                l = ls(lk);
+                t = (ki' * ki + l * eye(n)) \ (ki' * yi);
+                fc = kc * t;
+                g(hk, lk, ii) = mean((fc - yc) .^ 2);
+            <span class="keyword">end</span>
+        <span class="keyword">end</span>
+        <span class="keyword">for</span> lk = 1 : length(ls)
+            l = ls(lk);
+            t = (k ^ 2 + l * eye(n)) \ (k * y);
+            F = K * t;
+            plotFigure(3, 3, id, num2str(hhh), num2str(l), X, F, x, y);
+            id = id + 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+    saveas(gcf, <span class="string">'eg04_3_A'</span>, <span class="string">'png'</span>);
+
+    [gl, ggl] = min(mean(g, 3), [], 2);
+    [~, gghl] = min(gl);
+    L = ls(ggl(gghl));
+    HH = hhs(gghl);
+
+    K = exp(-(repmat(X .^ 2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / HH);
+    k = exp(-xx / HH);
+
+    t = (k ^ 2 + L * eye(n)) \ (k * y);
+    F = K * t;
+
+    figure(<span class="string">'Name'</span>, <span class="string">'example 4-3 B'</span>); clf; hold <span class="string">on</span>;
+    plot(X, F, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+    axis([-2.8 2.8 -0.7 1.7]); xlabel(<span class="string">'\itx'</span>);
+    title(strcat( <span class="string">'final: (h, \lambda) = ('</span>, num2str(hidx(gghl)), <span class="string">', '</span>, num2str(L), <span class="string">')'</span> ));
+
+    <span class="comment">% save figure</span>
+    saveas(gcf, <span class="string">'eg04_3_B'</span>, <span class="string">'png'</span>);
+
+    <span class="comment">% sub-function, plot sub-figure</span>
+    <span class="keyword">function</span> [] = plotFigure( M, N, id, h, lambda, x1, y1, x2, y2 )
+        subplot(M, N, id);
+        plot(x1, y1, <span class="string">'g-'</span>, x2, y2, <span class="string">'b.'</span>);
+        axis([-2.8 2.8 -0.7 1.7]);
+        title(strcat( <span class="string">'(h, \lambda) = ('</span>, h, <span class="string">', '</span>, lambda, <span class="string">')'</span> ));
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+</pre><img vspace="5" hspace="5" src="eg04_3_01.png" alt=""> <img vspace="5" hspace="5" src="eg04_3_02.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Example 4.3 Model Selection with Cross Validation
+%
+% * *Result in book* : Figure 4.9
+% * *Code in book* : Figure 4.14
+% * *Output* : |eg04_3_A.png, eg04_3_B.png|
+% * *Usage* : |eg04_3(), eg04_3(50, 1000)|
+%
+%% Source Code
+function eg04_3(n, N)
+    % init
+    rng(0, 'v5uniform'); rng(0, 'v5normal');
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 2
+        n = 50; N = 1000;
+    end
+
+    % constant
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+
+    % plot preparation
+    figure('Name', 'example 4-3 A'); clf; hold on;
+
+    % kernel function
+    x2 = x .^ 2;
+    X2 = X .^ 2;
+    xx = repmat(x2, 1, n) + repmat(x2', n, 1) - 2 * x * x';
+    xX = repmat(X2, 1, n) + repmat(x2', N, 1) - 2 * X * x';
+
+    % iteration parameter
+    hidx = [0.03 0.3 3];
+    hhs = 2 * hidx .^ 2;
+    ls = [0.0001 0.1 100];
+    m = 5;
+    u = floor(m * (0 : n - 1) / n) + 1;
+    u = u(randperm(n));
+
+    id = 1;
+    g = zeros(3, 3, m);
+    for hk = 1 : length(hhs)
+        hh = hhs(hk);
+        hhh = hidx(hk);
+        k = exp(-xx / hh);
+        K = exp(-xX / hh);
+        for ii = 1 : m
+            ki = k(u ~= ii, :);
+            kc = k(u == ii, :);
+            yi = y(u ~= ii);
+            yc = y(u == ii);
+            for lk = 1 : length(ls)
+                l = ls(lk);
+                t = (ki' * ki + l * eye(n)) \ (ki' * yi);
+                fc = kc * t;
+                g(hk, lk, ii) = mean((fc - yc) .^ 2);
+            end
+        end
+        for lk = 1 : length(ls)
+            l = ls(lk);
+            t = (k ^ 2 + l * eye(n)) \ (k * y);
+            F = K * t;
+            plotFigure(3, 3, id, num2str(hhh), num2str(l), X, F, x, y);
+            id = id + 1;
+        end
+    end
+    saveas(gcf, 'eg04_3_A', 'png');
+
+    [gl, ggl] = min(mean(g, 3), [], 2);
+    [~, gghl] = min(gl);
+    L = ls(ggl(gghl));
+    HH = hhs(gghl);
+
+    K = exp(-(repmat(X .^ 2, 1, n) + repmat(x2', N, 1) - 2 * X * x') / HH);
+    k = exp(-xx / HH);
+
+    t = (k ^ 2 + L * eye(n)) \ (k * y);
+    F = K * t;
+
+    figure('Name', 'example 4-3 B'); clf; hold on;
+    plot(X, F, 'g-', x, y, 'bo');
+    axis([-2.8 2.8 -0.7 1.7]); xlabel('\itx');
+    title(strcat( 'final: (h, \lambda) = (', num2str(hidx(gghl)), ', ', num2str(L), ')' ));
+
+    % save figure
+    saveas(gcf, 'eg04_3_B', 'png');
+
+    % sub-function, plot sub-figure
+    function [] = plotFigure( M, N, id, h, lambda, x1, y1, x2, y2 )
+        subplot(M, N, id);
+        plot(x1, y1, 'g-', x2, y2, 'b.');
+        axis([-2.8 2.8 -0.7 1.7]);
+        title(strcat( '(h, \lambda) = (', h, ', ', lambda, ')' ));
+    end
+end
+##### SOURCE END #####
+--></body></html>

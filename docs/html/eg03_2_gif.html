@@ -1,0 +1,236 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-20"><meta name="DC.source" content="eg03_2_gif.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 3.7</li><li><b>Code in book</b> : Figure 3.8</li><li><b>Output</b> : <tt>eg03_2_C_anime.gif</tt></li><li><b>Usage</b> : <tt>eg03_2_gif(), eg03_2_gif(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li><li><a href="#3">Result</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg03_2_gif(n, N)
+    <span class="comment">% init</span>
+    rng(0, <span class="string">'v5uniform'</span>); rng(0, <span class="string">'v5normal'</span>);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 2
+        n = 50; N = 1000;
+    <span class="keyword">end</span>
+
+    <span class="comment">% constant</span>
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ pix + 0.1 * x + 0.05 * randn(n, 1);
+
+    <span class="comment">% frame id</span>
+    getRand = @(a, b, m)(unique(randi([a, b], 1, m)));
+    frame = [1, getRand(2, 10, 8), getRand(11, 21, 2), <span class="keyword">...</span>
+        getRand(22, 42, 3), getRand(43, 85, 3), getRand(86, 171, 4), <span class="keyword">...</span>
+        getRand(182, 343, 5), getRand(344, 687, 7), getRand(688, 1375, 8), <span class="keyword">...</span>
+        getRand(1376, 2750, 11), getRand(2751, 5500, 13), <span class="keyword">...</span>
+        getRand(5501, 11000, 16), getRand(11001, 22000, 20) <span class="keyword">...</span>
+    ];
+    framelength = length(frame);
+
+    <span class="comment">% plot preparation</span>
+    figure(<span class="string">'Name'</span>, <span class="string">'example 3-2 gif'</span>, <span class="string">'Visible'</span>, <span class="string">'off'</span>); clf;
+
+    <span class="comment">% iteration parameter</span>
+    hh = 2 * 0.3 * 0.3;
+    K = exp(-(repmat(X .^ 2, 1, n) + repmat((x .^ 2)', N, 1) - 2 * X * x') / hh);
+    t0 = randn(n, 1);
+    e = 0.1;
+    eps = 1e-6;
+    id = 0;
+
+    figure(<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+    plot(X, K * t0, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+    xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+    text(-2.7, 1.1, strcat(<span class="string">'Iteration Count: '</span>, num2str(id)));
+    im = frame2im(getframe);
+    [Data, map] = rgb2ind(im, 256);
+    imwrite(Data, map, <span class="string">'eg03_2_C_anime.gif'</span>, <span class="string">'gif'</span>, <span class="keyword">...</span>
+        <span class="string">'Loopcount'</span>, 0, <span class="string">'DelayTime'</span>, 0.05);
+    id = id + 1;
+    <span class="comment">% iteration, plot data within iteration</span>
+    <span class="keyword">for</span> o = 1 : n * 1000
+        index = ceil(rand * n);
+        ki = exp(-(x - x(index)) .^ 2 / hh);
+        t = t0 - e * ki * (ki' * t0 - y(index));
+        <span class="keyword">if</span> norm(t - t0) &lt; eps, <span class="keyword">break</span>, <span class="keyword">end</span>
+        t0 = t;
+        <span class="keyword">if</span> (id &gt; framelength), <span class="keyword">continue</span>, <span class="keyword">end</span>
+        <span class="keyword">if</span> (frame(id) == o)
+            figure(<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+            plot(X, K * t, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+            xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+            text(-2.7, 1.1, strcat(<span class="string">'Iteration Count: '</span>, num2str(frame(id))));
+            im = frame2im(getframe);
+            [Data, map] = rgb2ind(im, 256);
+            imwrite(Data, map, <span class="string">'eg03_2_C_anime.gif'</span>, <span class="string">'gif'</span>, <span class="keyword">...</span>
+                <span class="string">'WriteMode'</span>, <span class="string">'append'</span>, <span class="string">'DelayTime'</span>, 0.05);
+            id = id + 1;
+        <span class="keyword">end</span>
+    <span class="keyword">end</span>
+
+    <span class="comment">% plot final iteration result</span>
+    figure(<span class="string">'Visible'</span>, <span class="string">'off'</span>);
+    plot(X, K * t, <span class="string">'g-'</span>, x, y, <span class="string">'bo'</span>);
+    xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+    text(-2.7, 1.1, strcat(<span class="string">'Iteration Count: '</span>, num2str(o)));
+    im = frame2im(getframe);
+    [Data, map] = rgb2ind(im, 256);
+    imwrite(Data, map, <span class="string">'eg03_2_C_anime.gif'</span>, <span class="string">'gif'</span>, <span class="string">'WriteMode'</span>, <span class="string">'append'</span>, <span class="string">'DelayTime'</span>, 0.05);
+<span class="keyword">end</span>
+</pre><h2>Result<a name="3"></a></h2><p><img vspace="5" hspace="5" src="eg03_2_C_anime.gif" alt=""> </p><p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Example 3.2 Basic Linear Regression with Stochastic Gradient Descent Method
+%
+% * *Result in book* : Figure 3.7
+% * *Code in book* : Figure 3.8
+% * *Output* : |eg03_2_C_anime.gif|
+% * *Usage* : |eg03_2_gif(), eg03_2_gif(50, 1000)|
+%
+%% Source Code
+function eg03_2_gif(n, N)
+    % init
+    rng(0, 'v5uniform'); rng(0, 'v5normal');
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 2
+        n = 50; N = 1000;
+    end
+    
+    % constant
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ pix + 0.1 * x + 0.05 * randn(n, 1);
+    
+    % frame id
+    getRand = @(a, b, m)(unique(randi([a, b], 1, m)));
+    frame = [1, getRand(2, 10, 8), getRand(11, 21, 2), ...
+        getRand(22, 42, 3), getRand(43, 85, 3), getRand(86, 171, 4), ...
+        getRand(182, 343, 5), getRand(344, 687, 7), getRand(688, 1375, 8), ...
+        getRand(1376, 2750, 11), getRand(2751, 5500, 13), ...
+        getRand(5501, 11000, 16), getRand(11001, 22000, 20) ...
+    ];
+    framelength = length(frame);
+
+    % plot preparation
+    figure('Name', 'example 3-2 gif', 'Visible', 'off'); clf;
+
+    % iteration parameter
+    hh = 2 * 0.3 * 0.3;
+    K = exp(-(repmat(X .^ 2, 1, n) + repmat((x .^ 2)', N, 1) - 2 * X * x') / hh);
+    t0 = randn(n, 1);
+    e = 0.1;
+    eps = 1e-6;
+    id = 0;
+
+    figure('Visible', 'off');
+    plot(X, K * t0, 'g-', x, y, 'bo');
+    xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+    text(-2.7, 1.1, strcat('Iteration Count: ', num2str(id)));
+    im = frame2im(getframe);
+    [Data, map] = rgb2ind(im, 256);
+    imwrite(Data, map, 'eg03_2_C_anime.gif', 'gif', ...
+        'Loopcount', 0, 'DelayTime', 0.05);
+    id = id + 1;
+    % iteration, plot data within iteration
+    for o = 1 : n * 1000
+        index = ceil(rand * n);
+        ki = exp(-(x - x(index)) .^ 2 / hh);
+        t = t0 - e * ki * (ki' * t0 - y(index));
+        if norm(t - t0) < eps, break, end
+        t0 = t;
+        if (id > framelength), continue, end
+        if (frame(id) == o)
+            figure('Visible', 'off');
+            plot(X, K * t, 'g-', x, y, 'bo');
+            xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+            text(-2.7, 1.1, strcat('Iteration Count: ', num2str(frame(id))));
+            im = frame2im(getframe);
+            [Data, map] = rgb2ind(im, 256);
+            imwrite(Data, map, 'eg03_2_C_anime.gif', 'gif', ...
+                'WriteMode', 'append', 'DelayTime', 0.05);
+            id = id + 1;
+        end
+    end
+
+    % plot final iteration result
+    figure('Visible', 'off');
+    plot(X, K * t, 'g-', x, y, 'bo');
+    xlim([-2.8, 2.8]); ylim([-0.5, 1.2]);
+    text(-2.7, 1.1, strcat('Iteration Count: ', num2str(o)));
+    im = frame2im(getframe);
+    [Data, map] = rgb2ind(im, 256);
+    imwrite(Data, map, 'eg03_2_C_anime.gif', 'gif', 'WriteMode', 'append', 'DelayTime', 0.05);
+end
+%%
+%% Result
+% 
+% <<eg03_2_C_anime.gif>>
+% 
+
+##### SOURCE END #####
+--></body></html>

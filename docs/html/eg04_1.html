@@ -1,0 +1,167 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>Example 4.1 Subspace-Constrained Regression with Least Square Method</title><meta name="generator" content="MATLAB 8.6"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2016-04-20"><meta name="DC.source" content="eg04_1.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h1>Example 4.1 Subspace-Constrained Regression with Least Square Method</h1><!--introduction--><div><ul><li><b>Result in book</b> : Figure 4.1</li><li><b>Code in book</b> : Figure 4.3</li><li><b>Output</b> : <tt>eg04_1.png</tt></li><li><b>Usage</b> : <tt>eg04_1(), eg04_1(50, 1000)</tt></li></ul></div><!--/introduction--><h2>Contents</h2><div><ul><li><a href="#1">Source Code</a></li></ul></div><h2>Source Code<a name="1"></a></h2><pre class="codeinput"><span class="keyword">function</span> eg04_1(n, N)
+    <span class="comment">% init</span>
+    rng(0, <span class="string">'v5uniform'</span>); rng(0, <span class="string">'v5normal'</span>);
+    <span class="comment">% recommended, use it in future instead of</span>
+    <span class="comment">% rand('state', 0); randn('state', 0);</span>
+    <span class="keyword">if</span> nargin &lt; 2
+        n = 50; N = 1000;
+    <span class="keyword">end</span>
+
+    <span class="comment">% constant</span>
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+
+    <span class="comment">% base function</span>
+    p(:, 1) = ones(n, 1);
+    P(:, 1) = ones(N, 1);
+    <span class="keyword">for</span> jj = 1 : 15
+        p(:, 2 * jj) = sin(jj / 2 * x);
+        p(:, 2 * jj + 1) = cos(jj / 2 * x);
+        P(:, 2 * jj) = sin(jj / 2 * X);
+        P(:, 2 * jj + 1) = cos(jj / 2 * X);
+    <span class="keyword">end</span>
+
+    <span class="comment">% solve</span>
+    t1 = p \ y;
+    F1 = P * t1;
+    t2 = (p * diag([ones(1, 11) zeros(1, 20)])) \ y;
+    F2 = P * t2;
+
+    <span class="comment">% plot</span>
+    figure(<span class="string">'Name'</span>, <span class="string">'example 4-1'</span>); clf; hold <span class="string">on</span>;
+
+    <span class="comment">% plot figure 1</span>
+    plot(X, F1, <span class="string">'g-'</span>, X, F2, <span class="string">'r-'</span>, x, y, <span class="string">'bo'</span>);
+    legend(<span class="string">'LS'</span>, <span class="string">'Subspace-Constrained LS'</span>, <span class="string">'Input Data'</span>, <span class="string">'Location'</span>, <span class="string">'southeast'</span>);
+    axis([-2.8, 2.8 -0.8 1.2]); xlabel(<span class="string">'\itx'</span>);
+    title(<span class="string">'LS &amp; Subspace-Constrained LS'</span>);
+
+    <span class="comment">% save figure</span>
+    saveas(gcf, <span class="string">'eg04_1'</span>, <span class="string">'png'</span>);
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">Warning: Rank deficient, rank = 11, tol =  7.850462e-14. 
+</pre><img vspace="5" hspace="5" src="eg04_1_01.png" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2015b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% Example 4.1 Subspace-Constrained Regression with Least Square Method
+%
+% * *Result in book* : Figure 4.1
+% * *Code in book* : Figure 4.3
+% * *Output* : |eg04_1.png|
+% * *Usage* : |eg04_1(), eg04_1(50, 1000)|
+%
+%% Source Code
+function eg04_1(n, N)
+    % init
+    rng(0, 'v5uniform'); rng(0, 'v5normal');
+    % recommended, use it in future instead of
+    % rand('state', 0); randn('state', 0);
+    if nargin < 2
+        n = 50; N = 1000;
+    end
+
+    % constant
+    x = linspace(-3, 3, n)';
+    X = linspace(-3, 3, N)';
+    pix = pi * x;
+    y = sin(pix) ./ (pix) + 0.1 * x + 0.2 * randn(n, 1);
+
+    % base function
+    p(:, 1) = ones(n, 1);
+    P(:, 1) = ones(N, 1);
+    for jj = 1 : 15
+        p(:, 2 * jj) = sin(jj / 2 * x);
+        p(:, 2 * jj + 1) = cos(jj / 2 * x);
+        P(:, 2 * jj) = sin(jj / 2 * X);
+        P(:, 2 * jj + 1) = cos(jj / 2 * X);
+    end
+
+    % solve
+    t1 = p \ y;
+    F1 = P * t1;
+    t2 = (p * diag([ones(1, 11) zeros(1, 20)])) \ y;
+    F2 = P * t2;
+
+    % plot
+    figure('Name', 'example 4-1'); clf; hold on;
+
+    % plot figure 1
+    plot(X, F1, 'g-', X, F2, 'r-', x, y, 'bo');
+    legend('LS', 'Subspace-Constrained LS', 'Input Data', 'Location', 'southeast');
+    axis([-2.8, 2.8 -0.8 1.2]); xlabel('\itx');
+    title('LS & Subspace-Constrained LS');
+
+    % save figure
+    saveas(gcf, 'eg04_1', 'png');
+end
+##### SOURCE END #####
+--></body></html>
